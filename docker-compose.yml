@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  apache:
+    build:
+      context: ./
+      dockerfile: docker-compose/apache/Dockerfile
+    image: elccu-apache-standalone
+    depends_on:
+      - db
+    container_name: elccu-apache-standalone
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - elccu-website-standalone
+    ports:
+      - ${HOST_PORT}:80
+    environment:
+      PROJECT_REPO_URL: ${PROJECT_REPO_URL}
+
+  db:
+    image: mysql:8
+    container_name: elccu-website-db-standalone
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - elccu-website-standalone
+
+networks:
+  elccu-website-standalone:
+    driver: bridge

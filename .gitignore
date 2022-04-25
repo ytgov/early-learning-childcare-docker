@@ -1,0 +1,4 @@
+.env
+.idea/
+docker-compose/mysql/*.sql
+project/
