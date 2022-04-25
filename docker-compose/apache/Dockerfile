@@ -55,7 +55,8 @@ COPY docker-compose/apache/config/apache-default.conf /etc/apache2/sites-enabled
 RUN mkdir -p /home/$user/scripts &&  \
     chown -R $user.$user /home/$user/scripts/ && \
     rm -rf /var/www/html && \
-    chmod 775 /var/www
+    chmod 775 /var/www && \
+    mkdir -p /var/www/project/
 
 # Set working directory
 WORKDIR /var/www
