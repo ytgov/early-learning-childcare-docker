@@ -51,5 +51,3 @@ An example of standard *nix cron syntax would be:
 The official MySQL 8 docker image is included in the `docker-compose.yml` file however it will likely be connecting to
 a shared DB server when launched in production.
 
-## PHP Server
-
