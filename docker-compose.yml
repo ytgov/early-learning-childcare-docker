@@ -15,7 +15,7 @@ services:
     networks:
       - elccu-website-standalone
     ports:
-      - ${HOST_PORT}:80
+      - ${HOST_PORT}:8000
     environment:
       PROJECT_REPO_URL: ${PROJECT_REPO_URL}
 
