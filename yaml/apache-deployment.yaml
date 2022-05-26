@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ../docker-compose-alt.yml
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: apache
+  name: apache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: apache
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f ../docker-compose-alt.yml
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/elccu-website-standalone: "true"
+        io.kompose.service: apache
+    spec:
+      containers:
+        - env:
+            - name: PROJECT_REPO_URL
+          image: 10.230.7.2/yg-dmz-ns/elccu-apache:latest
+          name: elccu-apache
+          ports:
+            - containerPort: 8000
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/www
+              name: apache-claim0
+          workingDir: /var/www
+          #          securityContext:
+            #            runAsUser: 0
+            #          command: ["su"]
+          #          args: ["elccu"]
+      imagePullSecrets:
+        - name: yg-dmz-ns-elccu-image-pull-secret
+      restartPolicy: Always
+      volumes:
+        - name: apache-claim0
+          persistentVolumeClaim:
+            claimName: apache-claim0
+status: {}

@@ -51,11 +51,15 @@ COPY docker-compose/apache/scripts/entrypoint.sh /tmp/entrypoint.sh
 # copy our apache config file
 COPY docker-compose/apache/config/apache-default.conf /etc/apache2/sites-enabled/000-default.conf
 
+# switch to run over port 8000 instead of 80
+RUN sed -i 's/80/8000/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
+
 # clear out the /var/www directory so we can clone the project there later
-RUN mkdir -p /home/$user/scripts &&  \
-    chown -R $user.$user /home/$user/scripts/ && \
-    rm -rf /var/www/html && \
-    chmod 775 /var/www
+RUN mkdir -p /home/$user/scripts
+RUN chown -R $user.$user /home/$user/scripts/
+RUN rm -rf /var/www/html
+RUN chmod -R 775 /var/www
+RUN mkdir -p /var/www/project/
 
 # Set working directory
 WORKDIR /var/www

@@ -1,17 +1,17 @@
 #!/bin/sh
 
-#whoami
+whoami
 
-#ls ../../ -la
+ls ../../ -la
 
-#cd /var/www/
+cd /var/www/
 
 whoami
 
-ls -la 
+ls -la
 # if the source already exists, do a pull, otherwise clone it
 #if cd project; then git pull --ff-only; else git clone ${PROJECT_REPO_URL} project && cd project; fi
-if cd project; then git pull --ff-only; else git clone git@github.com:ytgov/early-learning-childcare.git project && cd project; fi
+if cd project; then git pull --ff-only; else git clone https://github.com/ytgov/early-learning-childcare-docker.git project && cd project; fi
 # install our project's composer dependencies
 composer install --no-interaction --no-dev
 ln -s ../.env .env

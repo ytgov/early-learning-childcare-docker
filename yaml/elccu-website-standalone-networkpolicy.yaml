@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  creationTimestamp: null
+  name: elccu-website-standalone
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/elccu-website-standalone: "true"
+  podSelector:
+    matchLabels:
+      io.kompose.network/elccu-website-standalone: "true"

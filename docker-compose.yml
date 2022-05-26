@@ -4,7 +4,8 @@ services:
     build:
       context: ./
       dockerfile: docker-compose/apache/Dockerfile
-    image: elccu-apache-standalone
+    image: 10.230.7.2/yg-dmz-ns/elccu-apache:latest
+    user: root
     depends_on:
       - db
     container_name: elccu-apache-standalone
@@ -12,10 +13,8 @@ services:
     working_dir: /var/www
     volumes:
       - ./:/var/www
-    networks:
-      - elccu-website-standalone
     ports:
-      - ${HOST_PORT}:80
+      - ${HOST_PORT}:8000
     environment:
       PROJECT_REPO_URL: ${PROJECT_REPO_URL}
 
@@ -33,9 +32,3 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-    networks:
-      - elccu-website-standalone
-
-networks:
-  elccu-website-standalone:
-    driver: bridge
